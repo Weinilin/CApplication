@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:contentDescription="@string/app_name"
+        android:padding="@dimen/DP_10"
+        android:scaleType="center"
+        android:text="@string/SIGN_IN"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/SP_25" />
+
+    <EditText
+        android:id="@+id/username_textview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/DP_4"
+        android:layout_marginLeft="@dimen/DP_4"
+        android:layout_marginRight="@dimen/DP_4"
+        android:layout_marginTop="@dimen/DP_16"
+        android:hint="@string/USERNAME_TEXT"
+        android:inputType="textEmailAddress" />
+
+    <EditText
+        android:id="@+id/password_textview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/DP_16"
+        android:layout_marginLeft="@dimen/DP_4"
+        android:layout_marginRight="@dimen/DP_4"
+        android:layout_marginTop="@dimen/DP_4"
+        android:fontFamily="sans-serif"
+        android:hint="@string/PASSWORD_TEXT"
+        android:inputType="textPassword" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/DP_4"
+        android:layout_marginStart="@dimen/DP_10"
+        android:text="@string/ALERT_TEXT"
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/SP_10" />
+
+</LinearLayout>

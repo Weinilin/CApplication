@@ -1,4 +1,18 @@
 <resources>
-    <string name="app_name">CApplication</string>
+    <string name="app_name">CProject1</string>
     <string name="action_settings">Settings</string>
+    <string name="LOGIN_TEXT">login</string>
+    <string name="CANCEL_TEXT">Cancel</string>
+    <string name="USERNAME_TEXT">username</string>
+    <string name="PASSWORD_TEXT">password</string>
+    <string name="TOPIC_CONTENT_TEXT">topic content</string>
+
+    <string name="PROJ_TITLE">CProject</string>
+    <string name="SIGN_IN">Sign in</string>
+    <string name="ADD_TOPIC_TEXT">Add Topic </string>
+    <string name="ADD_TEXT">Add</string>
+    <string name="max_length">255</string>
+
+    <string name="ALERT_TEXT">Key in any user name and password to login. All would work. </string>
+
 </resources>
