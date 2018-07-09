@@ -13,7 +13,7 @@
         android:layout_alignParentLeft="true"
         android:textStyle="italic"
         android:textColor="@color/colorPrimary"
-        android:layout_marginStart="@dimen/DP_4"
+        android:layout_marginStart="@dimen/DP_10"
         android:paddingEnd="@dimen/DP_15"
         android:paddingTop = "@dimen/DP_10"
 
