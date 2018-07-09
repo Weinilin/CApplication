@@ -1,5 +1,7 @@
 package com.example.aw.capplication;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -11,12 +13,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.aw.capplication.Adapter.TopicAdapter;
+import com.example.aw.capplication.Dialog.AddTopicFragment;
 import com.example.aw.capplication.Dialog.SignInDialogFragment;
 import com.example.aw.capplication.Model.Topic;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by Aw on 9/7/2018.
@@ -54,6 +58,12 @@ public class DashboardFragment extends Fragment {
                                            signInDialogFragment.setTargetFragment(DashboardFragment.this, DIALOG_FRAGMENT);
                                            signInDialogFragment.show(getFragmentManager(), "SignIn Dialog");
 
+                                       } else {
+
+                                           AddTopicFragment addTopicFragment = new AddTopicFragment();
+                                           addTopicFragment.setTargetFragment(DashboardFragment.this, DIALOG_FRAGMENT);
+
+                                           addTopicFragment.show(getFragmentManager(), "AddTopic Dialog");
                                        }
                                    }
                                }
@@ -97,4 +107,39 @@ public class DashboardFragment extends Fragment {
         // Set layout manager to position the items
         mTopicRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case DIALOG_FRAGMENT:
+
+                if (resultCode == Activity.RESULT_OK) {
+                    // After Ok code.
+                    Bundle bundle = data.getExtras();
+                    if (bundle != null) {
+                        //get the new Topic keyed by user
+                        if (username.equals(""))
+                            username = bundle.getString(getResources().getString(R.string.USERNAME_TEXT));
+                        String content = bundle.getString(getResources().getString(R.string.TOPIC_CONTENT_TEXT));
+                        Date date = new Date();
+                        String nowDate = sdf.format(date);
+
+
+                        toolbar.setTitle("Hello " + username);
+                        Topic newTopic = new Topic(username, content, "0", "0", nowDate);
+
+                        mTopics.add(newTopic);
+                        top20Topics = mAdapter.sortDescending(top20Topics);
+
+                        setTop20();
+                        updateUI();
+
+                    }
+                }
+
+                break;
+        }
+    }
+
 }

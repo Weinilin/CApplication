@@ -71,10 +71,16 @@ public class AddTopicFragment extends DialogFragment {
                     String content = content_edittext.getText().toString();
 
                     Bundle bundle = new Bundle();
+                    //pass info back to dashboard frag
                     bundle.putString(getResources().getString(R.string.USERNAME_TEXT), finalUsername);
                     bundle.putString(getResources().getString(R.string.PASSWORD_TEXT), finalPassword);
                     bundle.putString(getResources().getString(R.string.TOPIC_CONTENT_TEXT), content);
+                    Intent mIntent = new Intent();
+                    mIntent.putExtras(bundle);
 
+                    getDialog().dismiss();
+                    DashboardFragment dashboardFragment = (DashboardFragment) getTargetFragment();
+                    dashboardFragment.onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, mIntent);
 
                 }
             });
