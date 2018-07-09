@@ -17,6 +17,9 @@ import org.robolectric.annotation.Config;
 
 import java.util.ArrayList;
 
+import static com.example.aw.capplication.Model.TopicList.top20Topics;
+import static com.example.aw.capplication.Model.TopicList.topicsFullList;
+import static com.example.aw.capplication.Model.TopicList.updateTopicList;
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -54,7 +57,6 @@ public class DashboardUnittest {
     @Test
     public void sorting_is_correct() throws Exception {
         //stub for topics
-        ArrayList<Topic> mTopics = new ArrayList<>();
         int n = 20;
         for (int i = 0; i < 20; i++) {
             Topic topic = new Topic();
@@ -69,29 +71,29 @@ public class DashboardUnittest {
                 topic.setUsername("Brenda" + Integer.toString(n--));
 
             }
-            mTopics.add(topic);
+            topicsFullList.add(topic);
 
 
         }
 
-        TopicAdapter topicAdapter = new TopicAdapter(mTopics);
+
         //Acess the sorting function
-        mTopics = topicAdapter.sortDescending(mTopics);
+        updateTopicList();
         n = 20;
-        //test the sequence of display
+        //test the sequence of display im top 20 list
         for (int i = 0; i < 20; i++) {
 
             if (i == 0) {
                 //check if prev index 14 (with the highest up votes) is now index 0
-                assertEquals(mTopics.get(i).getNumOfVote(), "1000");
+                assertEquals(top20Topics.get(i).getNumOfVote(), "1000");
 
-                assertEquals(mTopics.get(i).getUsername(), "Brenda14max");
+                assertEquals(top20Topics.get(i).getUsername(), "Brenda14max");
 
             } else {
                 //check if the sequence is right after sorting it
-                assertEquals(mTopics.get(i).getNumOfVote(), Integer.toString(n));
+                assertEquals(top20Topics.get(i).getNumOfVote(), Integer.toString(n));
 
-                assertEquals(mTopics.get(i).getUsername(), "Brenda" + Integer.toString(n));
+                assertEquals(top20Topics.get(i).getUsername(), "Brenda" + Integer.toString(n));
                 n--;
             }
 

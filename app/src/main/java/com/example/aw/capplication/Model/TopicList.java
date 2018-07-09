@@ -34,6 +34,7 @@ public class TopicList extends Application {
         this.top20Topics = top20Topics;
     }
 
+    //sort and reset the top 20
     public static void updateTopicList() {
         sortDescending();
         getTop20();
@@ -49,6 +50,7 @@ public class TopicList extends Application {
 
     }
 
+    //set the top 20
     public static ArrayList<Topic> getTop20() {
         top20Topics.clear();
         for (int i = 0; i < topicsFullList.size(); i++) {
