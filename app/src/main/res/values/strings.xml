@@ -14,5 +14,6 @@
     <string name="max_length">255</string>
 
     <string name="ALERT_TEXT">Key in any user name and password to login. All would work. </string>
+    <string name="NO_TOPIC_TEXT">No topics added. \nClick on + button to add topics!!!!</string>
 
 </resources>

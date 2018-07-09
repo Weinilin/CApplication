@@ -11,11 +11,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.aw.capplication.Adapter.TopicAdapter;
 import com.example.aw.capplication.Dialog.AddTopicFragment;
 import com.example.aw.capplication.Dialog.SignInDialogFragment;
 import com.example.aw.capplication.Model.Topic;
+
+import org.w3c.dom.Text;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -32,6 +35,7 @@ public class DashboardFragment extends Fragment {
 
     private Toolbar toolbar;
     private RecyclerView mTopicRecyclerView;
+    private TextView no_topic_textview;
     private ArrayList<Topic> mTopics = new ArrayList<>();
     private ArrayList<Topic> top20Topics = new ArrayList<>();
     private static final DateFormat sdf = new SimpleDateFormat("dd/MMM/yyyy");
@@ -45,7 +49,7 @@ public class DashboardFragment extends Fragment {
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-
+        toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
         //for adding topic by user
         FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -68,26 +72,21 @@ public class DashboardFragment extends Fragment {
                                    }
                                }
         );
-
-
-        //add in 20 topics
-        for (int i = 0; i < 20; i++) {
-            Topic topic = new Topic();
-            topic.setNumOfUpVote("0");
-            topic.setNumOfDownVote("0");
-            topic.setUsername("Brenda" + Integer.toString(i));
-            topic.setContent("Topic of the day \n" + Integer.toString(i));
-
-            mTopics.add(topic);
-
-        }
-
-        //always only display top 20 even after user add addition
-        setTop20();
-
+        no_topic_textview = view.findViewById(R.id.textview_empty);
         mTopicRecyclerView = (RecyclerView) view.findViewById(R.id.topics_recycler_view);
 
-        updateUI();
+        //display instruction when no topics added
+        if (mTopics.size() > 0) {
+            no_topic_textview.setVisibility(View.GONE);
+            mTopicRecyclerView.setVisibility(View.VISIBLE);
+            //always only display top 20 even after user add addition
+            setTop20();
+            updateUI();
+        } else {
+            no_topic_textview.setVisibility(View.VISIBLE);
+            mTopicRecyclerView.setVisibility(View.GONE);
+        }
+
     }
 
     private void setTop20() {
@@ -125,13 +124,20 @@ public class DashboardFragment extends Fragment {
                         Date date = new Date();
                         String nowDate = sdf.format(date);
 
-
-                        toolbar.setTitle("Hello " + username);
+                        //display username on toolbar
+                        toolbar.setTitle("Hello " + username + ", ");
+                        //inital new topic
                         Topic newTopic = new Topic(username, content, "0", "0", nowDate);
-
                         mTopics.add(newTopic);
+
+                        if(no_topic_textview.getVisibility() == View.VISIBLE) {
+                            mAdapter = new TopicAdapter(top20Topics);
+                            no_topic_textview.setVisibility(View.GONE);
+                            mTopicRecyclerView.setVisibility(View.VISIBLE);
+                        }
                         top20Topics = mAdapter.sortDescending(top20Topics);
 
+                        //always only display top 20 even after user add new topic
                         setTop20();
                         updateUI();
 
