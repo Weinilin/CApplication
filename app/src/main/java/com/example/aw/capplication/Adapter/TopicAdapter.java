@@ -16,25 +16,22 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
+import static com.example.aw.capplication.Model.TopicList.top20Topics;
+import static com.example.aw.capplication.Model.TopicList.topicsFullList;
+import static com.example.aw.capplication.Model.TopicList.updateTopicList;
+
 /**
  * Created by Aw on 9/7/2018.
  */
 
 public class TopicAdapter extends RecyclerView.Adapter<TopicAdapter.TopicHolder> {
-    private ArrayList<Topic> mTopics;
-    private ArrayList<Topic> top20topics;
 
 
-    public TopicAdapter(ArrayList<Topic> topics) {
-        mTopics = topics;
+
+    public TopicAdapter() {
 
     }
 
-    public TopicAdapter(ArrayList<Topic> topics, ArrayList<Topic> top20topics) {
-        mTopics = topics;
-        this.top20topics = top20topics;
-
-    }
 
     @Override
     public TopicAdapter.TopicHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -46,13 +43,13 @@ public class TopicAdapter extends RecyclerView.Adapter<TopicAdapter.TopicHolder>
 
     @Override
     public void onBindViewHolder(TopicAdapter.TopicHolder holder, int position) {
-        Topic s = top20topics.get(position);
+        Topic s = top20Topics.get(position);
         holder.bindData(s);
     }
 
     @Override
     public int getItemCount() {
-        return top20topics.size();
+        return top20Topics.size();
     }
 
 
@@ -105,11 +102,9 @@ public class TopicAdapter extends RecyclerView.Adapter<TopicAdapter.TopicHolder>
             int numUp = Integer.parseInt(mTotalVoteTextView.getText().toString()) + num;
             mTotalVoteTextView.setText(Integer.toString(numUp));
 
+            topicsFullList.get(getPosition()).setNumOfVote(mTotalVoteTextView.getText().toString());
 
-            mTopics.get(getPosition()).setNumOfVote(mTotalVoteTextView.getText().toString());
-
-            mTopics = sortDescending(mTopics);
-            setTop20();
+            updateTopicList();
             notifyDataSetChanged();
         }
 
@@ -124,25 +119,7 @@ public class TopicAdapter extends RecyclerView.Adapter<TopicAdapter.TopicHolder>
         }
     }
 
-    //sort the topics according to descending of up votes
-    public ArrayList<Topic> sortDescending(ArrayList<Topic> topics) {
-        Collections.sort(topics, new Comparator<Topic>() {
-            public int compare(Topic t1, Topic t2) {
-                return Integer.parseInt(t1.getNumOfVote()) > Integer.parseInt(t2.getNumOfVote()) ? -1 : (Integer.parseInt(t1.getNumOfVote()) < Integer.parseInt(t2.getNumOfVote())) ? 1 : 0;
-            }
-        });
-        return topics;
-    }
 
-    private void setTop20() {
-        top20topics.clear();
-        for (int i = 0; i < mTopics.size(); i++) {
-            if (i == 20) {
-                break;
-            }
-            top20topics.add(mTopics.get(i));
 
-        }
-    }
 }
 

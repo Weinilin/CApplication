@@ -3,6 +3,7 @@ package com.example.aw.capplication;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -17,13 +18,14 @@ import com.example.aw.capplication.Adapter.TopicAdapter;
 import com.example.aw.capplication.Dialog.AddTopicFragment;
 import com.example.aw.capplication.Dialog.SignInDialogFragment;
 import com.example.aw.capplication.Model.Topic;
-
-import org.w3c.dom.Text;
+import com.example.aw.capplication.Model.TopicList;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+
+import static com.example.aw.capplication.Model.TopicList.updateTopicList;
 
 /**
  * Created by Aw on 9/7/2018.
@@ -36,9 +38,8 @@ public class DashboardFragment extends Fragment {
     private Toolbar toolbar;
     private RecyclerView mTopicRecyclerView;
     private TextView no_topic_textview;
-    private ArrayList<Topic> mTopics = new ArrayList<>();
-    private ArrayList<Topic> top20Topics = new ArrayList<>();
-    private static final DateFormat sdf = new SimpleDateFormat("dd/MMM/yyyy");
+
+    private static final DateFormat sdf = new SimpleDateFormat("dd MMM");
     private TopicAdapter mAdapter;
 
     @Override
@@ -52,37 +53,17 @@ public class DashboardFragment extends Fragment {
         toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
         //for adding topic by user
         FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-                                   @Override
-                                   public void onClick(View view) {
-                                       //go sigin page if no user
-                                       if (username.equals("")) {
+        fab.setOnClickListener(onClickListener);
 
-                                           SignInDialogFragment signInDialogFragment = new SignInDialogFragment();
-                                           signInDialogFragment.setTargetFragment(DashboardFragment.this, DIALOG_FRAGMENT);
-                                           signInDialogFragment.show(getFragmentManager(), "SignIn Dialog");
-
-                                       } else {
-
-                                           AddTopicFragment addTopicFragment = new AddTopicFragment();
-                                           addTopicFragment.setTargetFragment(DashboardFragment.this, DIALOG_FRAGMENT);
-
-                                           addTopicFragment.show(getFragmentManager(), "AddTopic Dialog");
-                                       }
-                                   }
-                               }
-        );
         no_topic_textview = view.findViewById(R.id.textview_empty);
         mTopicRecyclerView = (RecyclerView) view.findViewById(R.id.topics_recycler_view);
-        for (int i = 0; i < 20; i++) {
-            mTopics.add(new Topic());
-        }
+        InitilizeTopicList();
         //display instruction when no topics added
-        if (mTopics.size() > 0) {
+        if (TopicList.topicsFullList.size() > 0) {
             no_topic_textview.setVisibility(View.GONE);
             mTopicRecyclerView.setVisibility(View.VISIBLE);
             //always only display top 20 even after user add addition
-            setTop20();
+            updateTopicList();
             updateUI();
         } else {
             no_topic_textview.setVisibility(View.VISIBLE);
@@ -91,19 +72,40 @@ public class DashboardFragment extends Fragment {
 
     }
 
-    private void setTop20() {
-        top20Topics.clear();
-        for (int i = 0; i < mTopics.size(); i++) {
-            if (i == 20) {
-                break;
-            }
-            top20Topics.add(mTopics.get(i));
+    //when click on "+" btn
+    private View.OnClickListener onClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(final View v) {
+            switch (v.getId()) {
+                case R.id.fab:
+                    //go sigin page if no user
+                    if (username.equals("")) {
+                        SignInDialogFragment signInDialogFragment = new SignInDialogFragment();
+                        signInDialogFragment.setTargetFragment(DashboardFragment.this, DIALOG_FRAGMENT);
+                        signInDialogFragment.show(getFragmentManager(), "SignIn Dialog");
 
+                    } else {
+                        //go straight to add topic dialog
+                        AddTopicFragment addTopicFragment = new AddTopicFragment();
+                        addTopicFragment.setTargetFragment(DashboardFragment.this, DIALOG_FRAGMENT);
+
+                        addTopicFragment.show(getFragmentManager(), "AddTopic Dialog");
+                    }
+                    break;
+            }
+
+        }
+    };
+
+    private void InitilizeTopicList() {
+        for (int i = 0; i < 20; i++) {
+            TopicList.topicsFullList.add(new Topic());
         }
     }
 
+
     private void updateUI() {
-        mAdapter = new TopicAdapter(mTopics, top20Topics);
+        mAdapter = new TopicAdapter();
         mTopicRecyclerView.setAdapter(mAdapter);
         // Set layout manager to position the items
         mTopicRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -114,7 +116,6 @@ public class DashboardFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
             case DIALOG_FRAGMENT:
-
                 if (resultCode == Activity.RESULT_OK) {
                     // After Ok code.
                     Bundle bundle = data.getExtras();
@@ -122,25 +123,15 @@ public class DashboardFragment extends Fragment {
                         //get the new Topic keyed by user
                         if (username.equals(""))
                             username = bundle.getString(getResources().getString(R.string.USERNAME_TEXT));
-                        String content = bundle.getString(getResources().getString(R.string.TOPIC_CONTENT_TEXT));
-                        Date date = new Date();
-                        String nowDate = sdf.format(date);
-
-                        //display username on toolbar
-                        toolbar.setTitle("Hello " + username + ", ");
-                        //inital new topic
-                        Topic newTopic = new Topic(username, content, "0", nowDate);
-                        mTopics.add(newTopic);
+                        Topic newTopic = getNewTopic(bundle);
+                        TopicList.topicsFullList.add(newTopic);
 
                         if (no_topic_textview.getVisibility() == View.VISIBLE) {
-                            mAdapter = new TopicAdapter(top20Topics);
+                            mAdapter = new TopicAdapter();
                             no_topic_textview.setVisibility(View.GONE);
                             mTopicRecyclerView.setVisibility(View.VISIBLE);
                         }
-                        mTopics = mAdapter.sortDescending(mTopics);
-
-                        //always only display top 20 even after user add new topic
-                        setTop20();
+                        updateTopicList();
                         updateUI();
 
                     }
@@ -148,6 +139,19 @@ public class DashboardFragment extends Fragment {
 
                 break;
         }
+    }
+
+    //set new topic and return
+    @NonNull
+    private Topic getNewTopic(Bundle bundle) {
+        String content = bundle.getString(getResources().getString(R.string.TOPIC_CONTENT_TEXT));
+        Date date = new Date();
+        String nowDate = sdf.format(date);
+
+        //display username on toolbar
+        toolbar.setTitle("Hello " + username + ", ");
+        //inital new topic
+        return new Topic(username, content, "0", nowDate);
     }
 
 }
