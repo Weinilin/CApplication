@@ -74,7 +74,9 @@ public class DashboardFragment extends Fragment {
         );
         no_topic_textview = view.findViewById(R.id.textview_empty);
         mTopicRecyclerView = (RecyclerView) view.findViewById(R.id.topics_recycler_view);
-
+        for (int i = 0; i < 20; i++) {
+            mTopics.add(new Topic());
+        }
         //display instruction when no topics added
         if (mTopics.size() > 0) {
             no_topic_textview.setVisibility(View.GONE);
@@ -101,7 +103,7 @@ public class DashboardFragment extends Fragment {
     }
 
     private void updateUI() {
-        mAdapter = new TopicAdapter(top20Topics);
+        mAdapter = new TopicAdapter(mTopics, top20Topics);
         mTopicRecyclerView.setAdapter(mAdapter);
         // Set layout manager to position the items
         mTopicRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -127,15 +129,15 @@ public class DashboardFragment extends Fragment {
                         //display username on toolbar
                         toolbar.setTitle("Hello " + username + ", ");
                         //inital new topic
-                        Topic newTopic = new Topic(username, content, "0", "0", nowDate);
+                        Topic newTopic = new Topic(username, content, "0", nowDate);
                         mTopics.add(newTopic);
 
-                        if(no_topic_textview.getVisibility() == View.VISIBLE) {
+                        if (no_topic_textview.getVisibility() == View.VISIBLE) {
                             mAdapter = new TopicAdapter(top20Topics);
                             no_topic_textview.setVisibility(View.GONE);
                             mTopicRecyclerView.setVisibility(View.VISIBLE);
                         }
-                        top20Topics = mAdapter.sortDescending(top20Topics);
+                        mTopics = mAdapter.sortDescending(mTopics);
 
                         //always only display top 20 even after user add new topic
                         setTop20();
