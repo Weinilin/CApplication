@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.aw.capplication.Adapter.TopicAdapter;
+import com.example.aw.capplication.Dialog.SignInDialogFragment;
 import com.example.aw.capplication.Model.Topic;
 
 import java.text.DateFormat;

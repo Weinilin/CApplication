@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:contentDescription="@string/app_name"
+        android:padding="@dimen/DP_10"
+        android:scaleType="center"
+        android:text="@string/ADD_TOPIC_TEXT"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/SP_25" />
+
+    <EditText
+        android:id="@+id/content_edittext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/edittext_box"
+        android:layout_margin="@dimen/DP_10"
+        android:hint="Enter the content of topic"
+        android:padding="@dimen/DP_10"
+        android:maxLength="@string/max_length"/>
+</LinearLayout>
