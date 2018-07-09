@@ -74,7 +74,28 @@ public class TopicAdapter extends RecyclerView.Adapter<TopicAdapter.TopicHolder>
             mUpVoteTextView = (TextView) itemView.findViewById(R.id.up_vote_num_textview);
             mDownVoteTextView = (TextView) itemView.findViewById(R.id.down_vote_num_textview);
 
+            //on click listerner for up and down
+            mUpVoteImage.setOnClickListener(onClickListener);
+            mDownVoteImage.setOnClickListener(onClickListener);
         }
+
+        private View.OnClickListener onClickListener = new View.OnClickListener() {
+
+            @Override
+            public void onClick(final View v) {
+                switch(v.getId()){
+                    case R.id.up_vote_btn:
+
+                        setVoteAndUpdate(mUpVoteTextView, UP_VOTE);
+                        break;
+                    case R.id.down_vote_btn:
+                        setVoteAndUpdate(mDownVoteTextView, DOWN_VOTE);
+
+                        break;
+                }
+
+            }
+        };
 
         //update the vote in arraylist and then on recycler view
         private void setVoteAndUpdate(TextView textView, int track) {
