@@ -1,3 +1,9 @@
+Things to take note:
+For unit testing to work, you have to do this following
+On Android Studio.
+1.	Edit Configurations
+2.	In Junit, you have to change the working directory to $MODULE_DIR$.
+
 hows and whys of your implementation :
 1. Recyclerview for the display of top 20 list of topics as the data is frequently change when user clicked on the up/down votes 
 and it would only load the new data when scrolling.
