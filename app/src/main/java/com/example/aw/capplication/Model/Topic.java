@@ -5,7 +5,7 @@ package com.example.aw.capplication.Model;
  */
 
 public class Topic {
-    private String username = "Brenda", content = "topic of the day", date = "08/09/2017", numOfVote = "0";
+    private String username = "Brenda", content = "topic of the day", date = "08 Jul", numOfVote = "0";
 
     public Topic() {
 
