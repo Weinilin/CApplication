@@ -60,12 +60,12 @@ public class DashboardUnittest {
             Topic topic = new Topic();
             if (i == 14) {
                 //set index 14 to have max up votes
-                topic.setNumOfUpVote("1000");
+                topic.setNumOfVote("1000");
                 topic.setUsername("Brenda14max");
 
 
             } else {
-                topic.setNumOfUpVote(Integer.toString(n));
+                topic.setNumOfVote(Integer.toString(n));
                 topic.setUsername("Brenda" + Integer.toString(n--));
 
             }
@@ -83,13 +83,13 @@ public class DashboardUnittest {
 
             if (i == 0) {
                 //check if prev index 14 (with the highest up votes) is now index 0
-                assertEquals(mTopics.get(i).getNumOfUpVote(), "1000");
+                assertEquals(mTopics.get(i).getNumOfVote(), "1000");
 
                 assertEquals(mTopics.get(i).getUsername(), "Brenda14max");
 
             } else {
                 //check if the sequence is right after sorting it
-                assertEquals(mTopics.get(i).getNumOfUpVote(), Integer.toString(n));
+                assertEquals(mTopics.get(i).getNumOfVote(), Integer.toString(n));
 
                 assertEquals(mTopics.get(i).getUsername(), "Brenda" + Integer.toString(n));
                 n--;

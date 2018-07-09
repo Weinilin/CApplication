@@ -11,11 +11,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:textStyle="italic"
-        android:textColor="@color/colorPrimary"
         android:layout_marginStart="@dimen/DP_10"
         android:paddingEnd="@dimen/DP_15"
-        android:paddingTop = "@dimen/DP_10"
+        android:paddingTop="@dimen/DP_10"
+        android:textColor="@color/colorPrimary"
+        android:textStyle="italic"
 
         tools:text="Username" />
 
@@ -23,10 +23,10 @@
         android:id="@+id/date_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/username_textview"
-        android:textColor="@color/colorPrimary"
         android:layout_marginStart="@dimen/DP_4"
-        android:paddingTop = "@dimen/DP_10"
+        android:layout_toRightOf="@+id/username_textview"
+        android:paddingTop="@dimen/DP_10"
+        android:textColor="@color/colorPrimary"
         android:textStyle="italic"
         tools:text="date" />
 
@@ -34,13 +34,13 @@
         android:id="@+id/content_textview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/date_textview"
+        android:layout_marginStart="@dimen/DP_10"
         android:elevation="@dimen/DP_10"
         android:maxLength="@string/max_length"
-        android:layout_below="@+id/date_textview"
         android:padding="@dimen/DP_10"
-        android:textSize="@dimen/SP_15"
-        android:layout_marginStart="@dimen/DP_10"
         android:textColor="@android:color/black"
+        android:textSize="@dimen/SP_15"
         tools:text="lalalallalala" />
 
 
@@ -49,52 +49,40 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/content_textview"
-        android:background="@drawable/boarder_imageview"
-        android:layout_toLeftOf="@+id/up_vote_num_textview"
         android:layout_marginEnd="@dimen/DP_15"
-        android:layout_marginStart="@dimen/DP_15"
+        android:layout_toStartOf="@+id/total_vote_num_textview"
+        android:background="@drawable/boarder_imageview"
+
         android:src="@drawable/ic_arrow_upward_black_24dp" />
 
+    <TextView
+        android:id="@+id/total_vote_num_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/content_textview"
+
+        android:layout_toStartOf="@+id/down_vote_btn"
+        android:paddingTop="@dimen/DP_4"
+        android:textColor="@android:color/holo_green_dark"
+        tools:text="0" />
 
     <ImageView
         android:id="@+id/down_vote_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/content_textview"
-        android:background="@drawable/boarder_imageview"
-        android:layout_toLeftOf="@+id/down_vote_num_textview"
-        android:layout_marginEnd="@dimen/DP_15"
-        android:layout_marginStart="@dimen/DP_15"
-        android:src="@drawable/ic_arrow_downward_black_24dp" />
-
-    <TextView
-        android:id="@+id/up_vote_num_textview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/content_textview"
-        android:layout_toLeftOf="@+id/down_vote_btn"
-        android:paddingTop="@dimen/DP_4"
-
-        android:textColor="@android:color/holo_green_dark"
-        tools:text="100" />
-
-
-    <TextView
-        android:id="@+id/down_vote_num_textview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/content_textview"
-        android:paddingEnd="@dimen/DP_15"
-        android:paddingTop="@dimen/DP_4"
+        android:layout_marginEnd="@dimen/DP_30"
+        android:layout_marginStart="@dimen/DP_15"
+        android:background="@drawable/boarder_imageview"
 
-        android:textColor="@android:color/holo_red_dark"
-        tools:text="50" />
+        android:src="@drawable/ic_arrow_downward_black_24dp" />
+
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_below="@+id/down_vote_num_textview"
+        android:layout_below="@+id/total_vote_num_textview"
         android:layout_marginBottom="@dimen/DP_15"
         android:layout_marginTop="@dimen/DP_15"
         android:background="@color/color_grey1" />

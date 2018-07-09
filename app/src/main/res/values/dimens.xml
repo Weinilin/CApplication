@@ -5,6 +5,12 @@
     <dimen name="DP_10">10dp</dimen>
     <dimen name="DP_15">15dp</dimen>
     <dimen name="DP_20">20dp</dimen>
+    <dimen name="DP_30">30dp</dimen>
+    <dimen name="DP_35">35dp</dimen>
+
+    <dimen name="DP_300">300dp</dimen>
+
+
 
     <dimen name="SP_25">25sp</dimen>
     <dimen name="SP_10">10sp</dimen>

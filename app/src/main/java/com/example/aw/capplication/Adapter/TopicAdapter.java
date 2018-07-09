@@ -22,13 +22,17 @@ import java.util.Comparator;
 
 public class TopicAdapter extends RecyclerView.Adapter<TopicAdapter.TopicHolder> {
     private ArrayList<Topic> mTopics;
-    private static int UP_VOTE = 0;
-    private static int DOWN_VOTE = 1;
+    private ArrayList<Topic> top20topics;
 
-    private Activity activity;
 
     public TopicAdapter(ArrayList<Topic> topics) {
         mTopics = topics;
+
+    }
+
+    public TopicAdapter(ArrayList<Topic> topics, ArrayList<Topic> top20topics) {
+        mTopics = topics;
+        this.top20topics = top20topics;
 
     }
 
@@ -42,13 +46,13 @@ public class TopicAdapter extends RecyclerView.Adapter<TopicAdapter.TopicHolder>
 
     @Override
     public void onBindViewHolder(TopicAdapter.TopicHolder holder, int position) {
-        Topic s = mTopics.get(position);
+        Topic s = top20topics.get(position);
         holder.bindData(s);
     }
 
     @Override
     public int getItemCount() {
-        return mTopics.size();
+        return top20topics.size();
     }
 
 
@@ -60,8 +64,7 @@ public class TopicAdapter extends RecyclerView.Adapter<TopicAdapter.TopicHolder>
         public TextView mUsernameTextView;
         public TextView mDateTextView;
         public TextView mContentTextView;
-        public TextView mUpVoteTextView;
-        public TextView mDownVoteTextView;
+        public TextView mTotalVoteTextView;
 
         public TopicHolder(View itemView) {
             super(itemView);
@@ -71,8 +74,7 @@ public class TopicAdapter extends RecyclerView.Adapter<TopicAdapter.TopicHolder>
             mUsernameTextView = (TextView) itemView.findViewById(R.id.username_textview);
             mDateTextView = (TextView) itemView.findViewById(R.id.date_textview);
             mContentTextView = (TextView) itemView.findViewById(R.id.content_textview);
-            mUpVoteTextView = (TextView) itemView.findViewById(R.id.up_vote_num_textview);
-            mDownVoteTextView = (TextView) itemView.findViewById(R.id.down_vote_num_textview);
+            mTotalVoteTextView = (TextView) itemView.findViewById(R.id.total_vote_num_textview);
 
             //on click listerner for up and down
             mUpVoteImage.setOnClickListener(onClickListener);
@@ -83,13 +85,13 @@ public class TopicAdapter extends RecyclerView.Adapter<TopicAdapter.TopicHolder>
 
             @Override
             public void onClick(final View v) {
-                switch(v.getId()){
+                switch (v.getId()) {
                     case R.id.up_vote_btn:
 
-                        setVoteAndUpdate(mUpVoteTextView, UP_VOTE);
+                        setVoteAndUpdate(1);
                         break;
                     case R.id.down_vote_btn:
-                        setVoteAndUpdate(mDownVoteTextView, DOWN_VOTE);
+                        setVoteAndUpdate(-1);
 
                         break;
                 }
@@ -98,23 +100,18 @@ public class TopicAdapter extends RecyclerView.Adapter<TopicAdapter.TopicHolder>
         };
 
         //update the vote in arraylist and then on recycler view
-        private void setVoteAndUpdate(TextView textView, int track) {
-            if (textView.getText() != null && !textView.getText().toString().equals("")) {
-                int numUp = Integer.parseInt(textView.getText().toString()) + 1;
-                textView.setText(Integer.toString(numUp));
-            } else {
-                textView.setText("1");
-            }
-            if(track == UP_VOTE) {
-                mTopics.get(getPosition()).setNumOfUpVote(textView.getText().toString());
-            } else {
-                mTopics.get(getPosition()).setNumOfDownVote(textView.getText().toString());
+        private void setVoteAndUpdate(int num) {
 
-            }
+            int numUp = Integer.parseInt(mTotalVoteTextView.getText().toString()) + num;
+            mTotalVoteTextView.setText(Integer.toString(numUp));
+
+
+            mTopics.get(getPosition()).setNumOfVote(mTotalVoteTextView.getText().toString());
+
             mTopics = sortDescending(mTopics);
+            setTop20();
             notifyDataSetChanged();
         }
-
 
 
         public void bindData(Topic s) {
@@ -122,8 +119,7 @@ public class TopicAdapter extends RecyclerView.Adapter<TopicAdapter.TopicHolder>
             mUsernameTextView.setText(s.getUsername());
             mDateTextView.setText(s.getDate());
             mContentTextView.setText(s.getContent());
-            mUpVoteTextView.setText(s.getNumOfUpVote());
-            mDownVoteTextView.setText(s.getNumOfDownVote());
+            mTotalVoteTextView.setText(s.getNumOfVote());
 
         }
     }
@@ -132,10 +128,21 @@ public class TopicAdapter extends RecyclerView.Adapter<TopicAdapter.TopicHolder>
     public ArrayList<Topic> sortDescending(ArrayList<Topic> topics) {
         Collections.sort(topics, new Comparator<Topic>() {
             public int compare(Topic t1, Topic t2) {
-                return Integer.parseInt(t1.getNumOfUpVote()) > Integer.parseInt(t2.getNumOfUpVote()) ? -1 : (Integer.parseInt(t1.getNumOfUpVote()) < Integer.parseInt(t2.getNumOfUpVote())) ? 1 : 0;
+                return Integer.parseInt(t1.getNumOfVote()) > Integer.parseInt(t2.getNumOfVote()) ? -1 : (Integer.parseInt(t1.getNumOfVote()) < Integer.parseInt(t2.getNumOfVote())) ? 1 : 0;
             }
         });
         return topics;
+    }
+
+    private void setTop20() {
+        top20topics.clear();
+        for (int i = 0; i < mTopics.size(); i++) {
+            if (i == 20) {
+                break;
+            }
+            top20topics.add(mTopics.get(i));
+
+        }
     }
 }
 

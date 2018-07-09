@@ -5,17 +5,16 @@ package com.example.aw.capplication.Model;
  */
 
 public class Topic {
-    private String username = "Brenda", content = "topic of the day", date = "08/09/2017", numOfUpVote = "100", numOfDownVote = "10";
+    private String username = "Brenda", content = "topic of the day", date = "08/09/2017", numOfVote = "0";
 
     public Topic() {
 
     }
 
-    public Topic(String username, String content, String numOfDownVote, String numOfUpVote, String nowDate) {
+    public Topic(String username, String content,  String numOfVote, String nowDate) {
         setUsername(username);
         setContent(content);
-        setNumOfDownVote(numOfDownVote);
-        setNumOfUpVote(numOfUpVote);
+        setNumOfVote(numOfVote);
         setDate(nowDate);
     }
 
@@ -43,21 +42,15 @@ public class Topic {
         this.date = date;
     }
 
-    public String getNumOfUpVote() {
-        return numOfUpVote;
+    public String getNumOfVote() {
+        return numOfVote;
     }
 
-    public void setNumOfUpVote(String numOfUpVote) {
-        this.numOfUpVote = numOfUpVote;
+    public void setNumOfVote(String numOfUpVote) {
+        this.numOfVote = numOfUpVote;
     }
 
-    public String getNumOfDownVote() {
-        return numOfDownVote;
-    }
 
-    public void setNumOfDownVote(String numOfDownVote) {
-        this.numOfDownVote = numOfDownVote;
-    }
 
 
 }
